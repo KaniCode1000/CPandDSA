@@ -1,0 +1,4 @@
+Given string s with length n, find all the pairs (i,j) such that substring s[i...j] is a palindrome.
+
+Method 1. Two Pointers - O(n^2) and O(1)
+Method 2. Manacher's Algorithm - O(n) and O(n)
