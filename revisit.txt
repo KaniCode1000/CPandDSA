@@ -1,0 +1,2 @@
+Revisit Two Pointers/Longest Palindromic String to do method 2 - Manacher's Algorithm
+Binary Exponentiation: Modular Multiplicative Inverse || Fibonacci Number || Homogenous coordinates || Floating Point 

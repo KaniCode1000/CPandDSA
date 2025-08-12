@@ -1,0 +1,26 @@
+Useful with any Associative operation
+
+Idea split a^b into a^(bin(b)) and then separately calculate each of the a^1,a^2,a^4 and so on and finally split the exponent bin(b) into individual bits
+
+APPLICATIONS
+
+Computing large exponents modulo a number
+Problem: Compute x^n mod m. This is a very common operation. For instance it is used in computing the modular multiplicative inverse. 
+(Can be sped up for primes, needs knowledge of Modular Inverse)
+
+Effective Computation of Fibonacci
+Problem: Compute nth Fibonacci Number
+(Fibonacci Numbers to understand more)
+
+Applying a permutation k times
+Problem: You are given a sequence of length n. Apply to it a given permutation k times.
+example: n=4, k=2, P = {2,3,4,1}, arr = {2,1,3,4} applying P to arr, we get arr' as {arr[P[1]],....,arr[P[4]]} or {arr[2],arr[3],arr[4],arr[1]}
+
+Fast application of a set of geometric operations to a set of points
+Problem: Given n points p_i , apply m transformations to each of these points. Each transformation can be a shift, a scaling or a rotation around a given axis by a given angle. There is also a "loop" operation which applies a given list of transformations k times ("loop" operations can be nested). You should apply all transformations faster than O(n*length) , where length  is the total number of transformations to be applied (after unrolling "loop" operations).
+
+Number of paths of length k in a graph
+Problem: Given a directed unweighted graph of n vertices, find the number of paths of length k from any vertex u to any other vertex v .
+
+Variation of binary exponentiation: multiplying two numbers modulo m
+Problem: Multiply two numbers a and b modulo m .a and b fit in the built-in data types, but their product is too big to fit in a 64-bit integer. The idea is to compute a*b(mod m)  without using bignum arithmetics.
