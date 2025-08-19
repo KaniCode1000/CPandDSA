@@ -1,0 +1,6 @@
+Merge arrays - You are given two arrays, sorted in non-decreasing order. Merge them into one sorted array.
+
+Number of smaller - You are given two arrays, sorted in non-decreasing order. For each element of the second array, find the number of elements in the first array strictly less than it.
+
+Number of Equal - You are given two arrays a and b, sorted in non-decreasing order. Find the number of pairs (i,j) for which ai=bj.
+
