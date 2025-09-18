@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	long long n,s;
+	cin >> n >> s;
+	long long arr[n];
+	for (long long i = 0;i<n;i++){
+		cin >> arr[i];
+	}
+	long long summ = 0;
+	long long low = 0,res = 0;
+	for (long long r = 0;r<n;r++){
+		summ += arr[r];
+		while (summ - arr[low] >= s){
+			summ -= arr[low];
+			low++;
+		}
+		if (summ >= s){
+			res += low+1;
+		}
+	}
+	cout << res << endl;
+	
+}
+
+

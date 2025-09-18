@@ -1,0 +1,20 @@
+1) Segment with Small Sum
+Given an array of n, integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good if the sum of elements on this segment is at most s. Your task is to find the longest good segment.
+
+2)Segment with Big Sum
+Segment with big sum - Given an array of n, integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good if the sum of elements on this segment is at least s. Your task is to find the shortest good segment.
+
+3)Number of Segments with Small Sum
+Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good if the sum of elements on this segment is at most s. Your task is to find the number of good segments.
+
+4)Number of Segments with Big Sum
+Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good if the sum of elements on this segment is at least s. Your task is to find the number of good segments.
+
+5)Segments with Small Set
+Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good there are no more than k unique elements on this segment. Your task is to find the number of different good segments.
+
+6)Segments with Small Spread
+Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good the difference between maximun and minimum elements of the subarray is atmost k. Your task is to find the number of different good segments 
+
+7)Coprime Segment
+Segment with big sum - Given an array of n, integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) is good if the gcd of all elements in the segment is 1. Your task is to find the shortest good segment.
