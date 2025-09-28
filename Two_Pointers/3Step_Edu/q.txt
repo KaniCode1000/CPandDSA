@@ -1,0 +1,6 @@
+1) Looped Playlist - input - n,p n - number of elements in the array and p is the total sum to reach after minimum number of cycles. 
+The array is looped n-1 to 0, and smallest segment including loopings + cycles to get sum p. Output - index k from which the segment
+starts and total songs to play after.
+
+2) Total Length - Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) 
+is good if the sum of elements on this segment is at most s. Your task is to find sum of lengths of all good segments.
