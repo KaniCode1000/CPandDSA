@@ -10,4 +10,6 @@ is good if the sum of elements on this segment is at most s. Your task is to fin
 4) Stylish Clothes - given 4 lists, Choose ones values in each such that the maximum difference among the values is the least. 
 Each value n, 1 <= n <= 10^5 (unable to do)
 
-5) 
+5) Knapsack on a Segment - Given an array of n items, for each of them its weight is wi and cost is ci.You need to select a segment of this array, the total weight on which is not more than s, and the total cost is maximum.
+
+6) Card Substrings - Given a string s and m letters. Output the number of substrings that can be made from the m letters.
