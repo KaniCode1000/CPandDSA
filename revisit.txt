@@ -1,3 +1,4 @@
 Revisit Two Pointers/Longest Palindromic String to do method 2 - Manacher's Algorithm
 Binary Exponentiation: Modular Multiplicative Inverse || Fibonacci Number || Homogenous coordinates || Floating Point 
 Coprime Segment question - Step2 Two pointers - requries multi stack and gcd queue
+Stylish Clothes question - Step3 Two pointers - requires heaps and multi pointers

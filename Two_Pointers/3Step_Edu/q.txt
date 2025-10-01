@@ -4,3 +4,10 @@ starts and total songs to play after.
 
 2) Total Length - Given an array of n integers ai. Let's say that the segment of this array a[l..r] (1≤l≤r≤n) 
 is good if the sum of elements on this segment is at most s. Your task is to find sum of lengths of all good segments.
+
+3) Che City - number of pairs (i,j) in an ascending sorted list such that a[j] - a[i] > r (given r and i < j)
+
+4) Stylish Clothes - given 4 lists, Choose ones values in each such that the maximum difference among the values is the least. 
+Each value n, 1 <= n <= 10^5 (unable to do)
+
+5) 
