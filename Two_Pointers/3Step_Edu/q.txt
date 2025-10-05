@@ -13,3 +13,9 @@ Each value n, 1 <= n <= 10^5 (unable to do)
 5) Knapsack on a Segment - Given an array of n items, for each of them its weight is wi and cost is ci.You need to select a segment of this array, the total weight on which is not more than s, and the total cost is maximum.
 
 6) Card Substrings - Given a string s and m letters. Output the number of substrings that can be made from the m letters.
+
+7) Not Very Rude Substring - Rudeness defined as number of ways to obtain the string ab for a substring. Find the max length of 
+substring for which rudeness does not exceed a given value c.
+
+8) A-B Knapsack - Given n items of weight A and costs ai and m items of weight B and costs bi. maximise cost without 
+weight exceeding a value s. 
