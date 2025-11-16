@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{amsmath}
+\title{Graph Search Algorithms}
+\author{Kanishk Goel}
+\date{14 November 2025}
+\parindent 0px
+\begin{document}
+	\maketitle
+	\section{Free Primitives}
+	Treat any algorithm with linear running time as something we can essential use for free.
+	\section{Generic Graph Search}
+	\textbf{Input:}
+	An undirected/directed graph $G = (V,E),$ and a starting vertex $s \in V$
+	
+	\textbf{Output:} Identify the vertices of $V$ reachable from $s$ in $G$. \\
+	\begin{center}
+		\begin{large}
+			\emph{Algorithm:} \\
+		\end{large}
+	\end{center}
+	\begin{tabbing}
+		\qquad \= \qquad \= \kill
+		\textbf{Input:} graph $G = (V,E)$ and vertex $s \in V$ \\
+		\textbf{Postcondition:} a vertex is reachable from $s$ if and only if it is marked as "explored" \\\\
+		mark $s$ as explored and all others unexplored \\
+		\textbf{while} $\exists\,(v,w)\in E$ with $v$ explored and $w$ unexplored \textbf{do} \\
+		\> choose some edge $(v,w)$ \\
+		\> mark $w$ as explored \\
+		\textbf{end while}
+	\end{tabbing}
+	\section{Breadth First Search} 
+	Explores layer by layer, Layer $0$ being $s$ itself.
+	\begin{tabbing}
+	\qquad \= \qquad \= \qquad \= \qquad \= \kill
+	mark $s$ as explored, all other vertices are unexplored \\
+	$Q$ := a queue data structure, init with $s$ \\
+	while $Q$ is not empty do \\
+	\> remove the vertex from the front of $Q$, call it $v$ \\
+	\> for each edge $(v,w)$ in $v$'s adjacency list do \\
+	\> \> if $w$ is unexplored then \\
+	\> \> \> mark $w$ as explored \\
+	\> \> \> add $w$ to the end of queue
+	\end{tabbing}
+	
+	\section{Depth First Search}
+	Takes one path and only backtracks when absolutely necessary.
+	
+\end{document}

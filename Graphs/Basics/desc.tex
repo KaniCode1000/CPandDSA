@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{graphicx} 
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage[table]{xcolor}
+
+\title{Graph Basics}
+\author{Kanishk Goel}
+\parindent 0px
+
+\begin{document}
+	\maketitle
+	
+	\section{Basics}
+	Graph - vertices/nodes $V$, $|V| = n$ and edges $E$, $|E| = m$ \\ $G = (V,E)$, undirected graph - each edge corresponds to an unordered pair $\{v,w\}$ of vertices, which are called the endpoints of the edges. \\
+	directed graph - each edge $(v,w)$ is an ordered pair, $v$(tail) and $w$(head)
+	
+	Sparse graphs - $n$ vertices and $\mathcal{O}(n \log n)$
+	Dense graphs - $n$ vertices and $\Omega(\frac{n^2}{\log n})$
+	\section{Adjacency Lists}
+	\begin{enumerate}
+		\item array with graph's vertices and edges
+		\item $\forall e, e \in E$, a pointer to each of its own endpoints
+		\item $\forall v, v \in V$, a pointer to each of the incident edge.
+	\end{enumerate}
+	for directed graphs, each edge tracks which endpt is tail and head. \\ memory requirement - $\Theta(m+n)$
+	\section{Adjacency Matrix}
+	$$A_{ij} = 
+	\begin{cases}
+	1 & \text{if edge} (i,j) \text{ belongs to } E \\
+	0 & \text{otherwise.}
+	\end{cases}
+	$$
+	1 bit maintained for each pair of vertices indicating presence of edge.
+	It is easy to extend this:
+	\begin{enumerate}
+		\item Parallel Edges: $A_{ij}$ defined as the number of edges with given endpoints i and j.
+		\item Weighted Graphs: If each edge has weight $w_{ij}$ representing cost/distance, then $A_{ij} = w_{ij}$
+		\item Directed Graphs: Simply asymmetric adjacency matrix.
+		\item Undirected Graphs: A symmetric adjacency matrix.
+	\end{enumerate}
+	memory requirement - $\Theta(n^2)$
+	Adjacency matrix is an efficient way of storing dense graphs but not sparse graphs.
+\end{document}
