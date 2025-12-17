@@ -31,15 +31,15 @@
 	\section{Breadth First Search} 
 	Explores layer by layer, Layer $0$ being $s$ itself.
 	\begin{tabbing}
-	\qquad \= \qquad \= \qquad \= \qquad \= \kill
-	mark $s$ as explored, all other vertices are unexplored \\
-	$Q$ := a queue data structure, init with $s$ \\
-	while $Q$ is not empty do \\
-	\> remove the vertex from the front of $Q$, call it $v$ \\
-	\> for each edge $(v,w)$ in $v$'s adjacency list do \\
-	\> \> if $w$ is unexplored then \\
-	\> \> \> mark $w$ as explored \\
-	\> \> \> add $w$ to the end of queue
+		\qquad \= \qquad \= \qquad \= \qquad \= \kill
+		mark $s$ as explored, all other vertices are unexplored \\
+		$Q$ := a queue data structure, init with $s$ \\
+		while $Q$ is not empty do \\
+		\> remove the vertex from the front of $Q$, call it $v$ \\
+		\> for each edge $(v,w)$ in $v$'s adjacency list do \\
+		\> \> if $w$ is unexplored then \\
+		\> \> \> mark $w$ as explored \\
+		\> \> \> add $w$ to the end of queue
 	\end{tabbing}
 	
 	\section{Depth First Search}
