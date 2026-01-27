@@ -15,7 +15,7 @@
 	\textbf{Output:} Identify the vertices of $V$ reachable from $s$ in $G$. \\
 	\begin{center}
 		\begin{large}
-			\emph{Algorithm:} \\
+			\textbf{Algorithm:} \\
 		\end{large}
 	\end{center}
 	\begin{tabbing}
@@ -32,7 +32,7 @@
 	Explores layer by layer, Layer $0$ being $s$ itself.
 	\begin{tabbing}
 		\qquad \= \qquad \= \qquad \= \qquad \= \kill
-		mark $s$ as explored, all other vertices are unexplored \\
+		mark $s$ as explored, all other vertices as unexplored \\
 		$Q$ := a queue data structure, init with $s$ \\
 		while $Q$ is not empty do \\
 		\> remove the vertex from the front of $Q$, call it $v$ \\
@@ -40,9 +40,122 @@
 		\> \> if $w$ is unexplored then \\
 		\> \> \> mark $w$ as explored \\
 		\> \> \> add $w$ to the end of queue
-	\end{tabbing}
+	\end{tabbing} Runtime - $O(m+n)$
+	
+	\section{Connected Components}
+	In an undirected graph $G = (V,E)$, a maximal subset $S \subseteq V$  of vertices such that there is a path from any vertex in $S$ to any other vertex in $S$.
+	UCC algorithm is used which takes undirected graph $G = (V,E)$ in adjacency-list representation with $V = {1, 2, 3, \ldots, n}$ \\
+	Postcondition: $\forall \: u,v \in V, \, cc(u) = cc(v) \iff u,v$ are in the same connected component
+	\begin{center}
+		\begin{large}
+			\textbf{UCC}
+		\end{large}
+	\end{center}
+		\begin{tabbing}
+		\qquad \= \qquad \= \qquad \= \qquad \= \qquad \= \kill
+		mark all vertices as unexplored \\
+		numCC := 0 \\
+		for i:= 1 to n do \\
+		\> if i is unexplored then \\
+		\> \> numCC := numCC + 1 //new component \\
+		\> \> // call BFS \\
+		\> \> $Q$ := a queue data structure, init with $s$ \\
+		\> \> while $Q$ is not empty do \\
+		\> \> \> remove the vertex from the front of $Q$, call it $v$ \\
+		\> \> \> for each edge $(v,w)$ in $v$'s adjacency list do \\
+		\> \> \> \> if $w$ is unexplored then \\
+		\> \> \> \> \> mark $w$ as explored \\
+		\> \> \>  \> \> add $w$ to the end of queue
+	\end{tabbing} Runtime - $O(m+n)$
 	
 	\section{Depth First Search}
 	Takes one path and only backtracks when absolutely necessary.
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Iterative Implementation}
+		\end{large}
+	\end{center}
+	
+	\begin{tabbing}
+		\qquad \= \qquad \= \qquad \= \qquad \= \kill
+		mark all vertices as unexplored \\
+		$S$ := a stack data structure, init with $s$ \\
+		while $S$ is not empty do \\
+		\> pop the vertex $v$ from the front of $S$ \\
+		\> if $v$ is unexplored then \\
+		\> \> mark $v$ as explored \\
+		\> \> for each edge $(v,w)$ in $v$'s adjacency list do \\
+		\> \> \> push $w$ to the front of $S$
+	\end{tabbing}
+	\pagebreak
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Recursive Implementation}
+		\end{large}
+	\end{center}
+	
+	\begin{tabbing}
+		\qquad \= \qquad \= \qquad \= \qquad \= \kill
+		Func DFS($G,v$) \\
+		\> mark $s$ as explored and all other as unexplored \\
+		\> for each edge $(s,v)$ in $s$'s adjacency list do \\
+		\> \> if $v$ is unexplored then\\
+		\> \>  \> DFS($G,v$)
+	\end{tabbing} Runtime - $O(m + n)$
+	\section{Topological Sort}
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Topological Ordering}
+		\end{large}
+	\end{center}
+	\vspace{0.1mm}
+	Let $G = (V,E)$ be a directed graph. A topological ordering of $G$ is an assignment $f(v)$ of every vertex $v \in V$ to a different number such that \[\forall \, (v,w) \in E, \: f(v) < f(w)\]
+	
+	\begin{itemize}
+		\item Topological orderings do not exist in directed cyclic graphs.
+		\item Every DAG has a topological ordering.
+	\end{itemize}	
+	
+	\vspace{0.3mm}
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Topological Sort}
+		\end{large}
+	\end{center}
+	\vspace{0.1mm}
+	DAG $G = (V,E)$ in adjacency list representation is given a $f$ value for every vertex constituting a topological ordering. it used DFS-Topo which assigns every vertex reachable from a vertex $s$ an $f$-value.
+	\begin{tabbing}
+		\qquad \= \qquad \= \qquad \= \kill
+		Func TopoSort$(G)$ \\
+		\> mark all vertices as unexplored \\
+		\> curLabel := $|V|$ \\
+		\> for every $v \in V$ do \\
+		\> \> if $v$ is unexplored then \\
+		\> \> \> DFS-Topo$(G,v)$
+	\end{tabbing}
+	
+	\begin{tabbing}
+		\qquad \= \qquad \= \qquad \= \kill
+		Func DFS-Topo$(G,s)$ \\
+		\> mark $s$ as explored \\
+		\> for each edge $(s,v)$ in $s$'s outgoing adjacency list do \\
+		\> \> if $v$ is unexplored then \\
+		\> \> \> DFS-Topo$(G,v)$ \\
+		\> $f(s)$ := curLabel \\
+		\> curLabel := curLabel - 1
+	\end{tabbing} curLabel is a global variable, initialised to $|V|$. Runtime is $O(m+n)$.
+	
+	\section{Strongly Connected Components}
+	A strongly connected component or SCC of a directed graph is a maximal subset $S \subseteq V$ of vertices such that there is a directed path from any vertex in $S$ to any other vertex in $S$.
+	
+	Every directed graph can be viewed as directed acyclic graph built up from its SCCs.
+	
+	\subsection*{The SCC Meta-Graph is Directed Acyclic}
+	$Let G = (V,E)$ be a directed graph. Define the corresponding meta-graph $H = (X,F)$ with one meta-vertex  $x \in X$ per SCC of $G$ and a meta-edge $(x,y)$ in $F$ whenever there is an edge in G from a vertex in the SCC corresponding to $x$ to one in the SCC corresponding to $y$. Then $H$ is a directed acyclic graph.
+	
 	
 \end{document}
