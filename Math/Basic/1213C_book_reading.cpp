@@ -22,6 +22,10 @@ int main(){
         cin >> n >> m;
         long long div = n/m;
         m = m%10;
+        if (m == 0){
+            cout << 0 << endl;
+            continue;
+        }
         long long ans = matrix[m-1][matrix[m-1].size()-1]*(div/(matrix[m-1].size() - 1));
         for (long long i = 0;i< div % (matrix[m-1].size()-1);i++){
             ans += matrix[m-1][i];
