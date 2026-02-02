@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{amsmath}
+\title{Greedy Basics}
+\author{Kanishk Goel}
+\date{2 February 2026}
+\parindent 0px
+\begin{document}
+	\maketitle
+	\section{Theme}
+	Construct a solution iteratively, via a sequence of myopic decisions, and hope that everything works out in the end.
+	\section{Scheduling Problem}
+	\begin{center}
+		\begin{large}
+			\textbf{Completion Times} \\
+		\end{large}
+	\end{center} The \textit{complete time} $C_j(\sigma)$ of a job $j$ in a schedule $\sigma$ is the sum of the lengths of the jobs preceding $j$ in $\sigma$, plus the length of $j$ itself 
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Objective Function:} \\
+		\end{large}
+	\end{center}
+	\[\min\limits_{\sigma} \sum_{j=1}^{n} w_j C_j(\sigma)\]
+	i.e  sum of weighted completion times. \\
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Problem: Minimizing the Sum of Weighted Completion Times} \\
+		\end{large}
+	\end{center}
+	
+	\textbf{Input:}  A set of $n$ jobs with positive lengths $l_1,l_2,\ldots,l_n$ and positive weights $w_1,w_2,\ldots,w_n$ \\
+	
+	\textbf{Output:} A job sequence that minimizes the sum of weighted completion times. \\
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Idea} \\
+		\end{large}
+	\end{center}
+	
+	\begin{itemize}
+		\item If the weights are same and lengths are different, then longer length should get longer completion times (ascending order).
+		\item If the lengths are same then, bigger weights should get shorter completion time (descending order).
+	\end{itemize}
+	
+	Therefore, the scores possible for a job are: 
+	\begin{itemize}
+		\item \textbf{GreedyRatio} -  $j: \frac{w_j}{l_j}$ 
+		\item \textbf{GreedyDiff} - $j: w_j - l_j$
+	\end{itemize}
+	Higher the score, lower the scheduling postion\ldots \\
+	
+	Let Job $1$ have $l_1 = 5$ and $w_1 = 3$, and Job $2$ have $l_2 = 2$ and $w_2 = 1$. If you place $1$ first and $2$ later, then completion times are $3*5 + 1*(5+2) = 22$ and vice versa it would be $1*2 + 3*(5+2) = 23$. Therefore, $1$ should be placed before $2$. \\
+	
+	Greedy Differences are $-2$ and $-1$ respectively, which shows GreedyDiff algorithm is wrong, while the Greedy Ratios are $\frac{3}{5} \land \frac{1}{2}$ which schedules the jobs correctly.
+	
+	\begin{center}
+		\begin{large}
+			\textbf{Proof of Correctness} \\
+		\end{large}
+	\end{center}
+	
+	 Core plan - use \textit{exchange arguments}.  \\
+	
+	The key idea is to prove that every feasible solution can be improved by modifying it to look more like the output of the greedy algorithm.
+	
+	\begin{center}
+		\begin{small}
+			\textbf{Two Assumptions} \\
+		\end{small}
+	\end{center}
+	
+	\begin{enumerate}
+		\item The jobs are indexed in nonincreasing order of Greedy Ratios
+		\item There are no ties between ratios i.e $\frac{w_i}{l_i} \neq \frac{w_j}{l_j}$
+	\end{enumerate}
+	
+	Now the greedy schedule, $\sigma$ is simply the order of jobs $1,2\ldots n$. Therefore $\sigma*$ differs from $\sigma$ because it has some pair of $(i,j) $such that $J_i > J_j$ while $i < j$, where $J_z$ denotes the $z^{th}$ job value as per the greedy schedule.  \\
+	
+	\textbf{Lemma:} every non greedy schedule has an inversion. \\
+	
+	Let there be a pair of $(i,j)$ such that $i$ and $j$ are consecutive in a schedule, $\sigma*$ and $C_b$ be completion time of stuff before, we isolate and see for differing portion of $C_{\sigma*}$ and $C_{\sigma}$:
+	
+	\begin{align}
+		\frac{w_i}{l_i} &< \frac{w_j}{l_j} \notag \\
+		w_i \cdot l_j &< w_j \cdot l_i \\
+		C_{\sigma*}  &= w_i \cdot (C_b + l_i) + w_j \cdot (C_b + l_i + l_j) \\
+		C_{\sigma} &= w_j \cdot (C_b + l_j) + w_i \cdot (C_b + l_i + l_j)
+	\end{align}
+	
+	By $(2)$ and $(3)$, we see:
+	\begin{align*}
+		C_{\sigma*} - C_{\sigma}  &= w_j \cdot l_i - w_i \cdot l_j 
+	\end{align*}
+	
+	Since, RHS is positive, this means $C_{\sigma} < C_{\sigma*}$. Hence, contradiction has been established.
+	
+	
+\end{document}
