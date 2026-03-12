@@ -1,109 +1,147 @@
 \documentclass{article}
+
 \usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
 \title{Graph Search Algorithms}
 \author{Kanishk Goel}
 \date{14 November 2025}
 \parindent 0px
+
+\SetAlgoCaptionLayout{centerline}
+
 \begin{document}
 	\maketitle
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
 	\section{Free Primitives}
 	Treat any algorithm with linear running time as something we can essential use for free.
-	\section{Generic Graph Search}
-	\textbf{Input:}
-	An undirected/directed graph $G = (V,E),$ and a starting vertex $s \in V$
 	
+	\section{Generic Graph Search}
+	\textbf{Input:} An undirected/directed graph $G = (V,E),$ and a starting vertex $s \in V$ \\
 	\textbf{Output:} Identify the vertices of $V$ reachable from $s$ in $G$. \\
-	\begin{center}
-		\begin{large}
-			\textbf{Algorithm:} \\
-		\end{large}
-	\end{center}
-	\begin{tabbing}
-		\qquad \= \qquad \= \kill
-		\textbf{Input:} graph $G = (V,E)$ and vertex $s \in V$ \\
-		\textbf{Postcondition:} a vertex is reachable from $s$ if and only if it is marked as "explored" \\\\
-		mark $s$ as explored and all others unexplored \\
-		\textbf{while} $\exists\,(v,w)\in E$ with $v$ explored and $w$ unexplored \textbf{do} \\
-		\> choose some edge $(v,w)$ \\
-		\> mark $w$ as explored \\
-		\textbf{end while}
-	\end{tabbing}
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Generic Graph Search}
+		\KwIn{graph $G = (V,E)$ and vertex $s \in V$}
+		\KwOut{a vertex is reachable from $s$ if and only if it is marked as ``explored''}
+		\BlankLine
+		\hrule
+		\BlankLine
+		mark $s$ as explored and all others unexplored \;
+		\While{$\exists\,(v,w)\in E$ with $v$ explored and $w$ unexplored}{
+			choose some edge $(v,w)$ \;
+			mark $w$ as explored \;
+		}
+	\end{algorithm}
+	
 	\section{Breadth First Search} 
 	Explores layer by layer, Layer $0$ being $s$ itself.
-	\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \qquad \= \kill
-		mark $s$ as explored, all other vertices as unexplored \\
-		$Q$ := a queue data structure, init with $s$ \\
-		while $Q$ is not empty do \\
-		\> remove the vertex from the front of $Q$, call it $v$ \\
-		\> for each edge $(v,w)$ in $v$'s adjacency list do \\
-		\> \> if $w$ is unexplored then \\
-		\> \> \> mark $w$ as explored \\
-		\> \> \> add $w$ to the end of queue
-	\end{tabbing} Runtime - $O(m+n)$
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Breadth First Search (BFS)}
+		\BlankLine
+		\hrule
+		\BlankLine
+		mark $s$ as explored, all other vertices as unexplored \;
+		$Q \leftarrow$ a queue data structure, init with $s$ \;
+		\While{$Q$ is not empty}{
+			remove the vertex from the front of $Q$, call it $v$ \;
+			\ForEach{edge $(v,w)$ in $v$'s adjacency list}{
+				\If{$w$ is unexplored}{
+					mark $w$ as explored \;
+					add $w$ to the end of queue \;
+				}
+			}
+		}
+	\end{algorithm} 
+	Runtime - $O(m+n)$
 	
 	\section{Connected Components}
 	In an undirected graph $G = (V,E)$, a maximal subset $S \subseteq V$  of vertices such that there is a path from any vertex in $S$ to any other vertex in $S$.
-	UCC algorithm is used which takes undirected graph $G = (V,E)$ in adjacency-list representation with $V = {1, 2, 3, \ldots, n}$ \\
+	
+	UCC algorithm is used which takes undirected graph $G = (V,E)$ in adjacency-list representation with $V = \{1, 2, 3, \ldots, n\}$ \\
 	Postcondition: $\forall \: u,v \in V, \, cc(u) = cc(v) \iff u,v$ are in the same connected component
-	\begin{center}
-		\begin{large}
-			\textbf{UCC}
-		\end{large}
-	\end{center}
-		\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \qquad \= \qquad \= \kill
-		mark all vertices as unexplored \\
-		numCC := 0 \\
-		for i:= 1 to n do \\
-		\> if i is unexplored then \\
-		\> \> numCC := numCC + 1 //new component \\
-		\> \> // call BFS \\
-		\> \> $Q$ := a queue data structure, init with $s$ \\
-		\> \> while $Q$ is not empty do \\
-		\> \> \> remove the vertex from the front of $Q$, call it $v$ \\
-		\> \> \> for each edge $(v,w)$ in $v$'s adjacency list do \\
-		\> \> \> \> if $w$ is unexplored then \\
-		\> \> \> \> \> mark $w$ as explored \\
-		\> \> \>  \> \> add $w$ to the end of queue
-	\end{tabbing} Runtime - $O(m+n)$
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Undirected Connected Components (UCC)}
+		\BlankLine
+		\hrule
+		\BlankLine
+		mark all vertices as unexplored \;
+		$numCC \leftarrow 0$ \;
+		\For{$i \leftarrow 1$ \KwTo $n$}{
+			\If{$i$ is unexplored}{
+				$numCC \leftarrow numCC + 1$ \tcp*{new component}
+				\tcp{call BFS}
+				$Q \leftarrow$ a queue data structure, init with $s$ \;
+				\While{$Q$ is not empty}{
+					remove the vertex from the front of $Q$, call it $v$ \;
+					\ForEach{edge $(v,w)$ in $v$'s adjacency list}{
+						\If{$w$ is unexplored}{
+							mark $w$ as explored \;
+							add $w$ to the end of queue \;
+						}
+					}
+				}
+			}
+		}
+	\end{algorithm} 
+	Runtime - $O(m+n)$
 	
 	\section{Depth First Search}
 	Takes one path and only backtracks when absolutely necessary.
 	
-	\begin{center}
-		\begin{large}
-			\textbf{Iterative Implementation}
-		\end{large}
-	\end{center}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Iterative Implementation of DFS}
+		\BlankLine
+		\hrule
+		\BlankLine
+		mark all vertices as unexplored \;
+		$S \leftarrow$ a stack data structure, init with $s$ \;
+		\While{$S$ is not empty}{
+			pop the vertex $v$ from the front of $S$ \;
+			\If{$v$ is unexplored}{
+				mark $v$ as explored \;
+				\ForEach{edge $(v,w)$ in $v$'s adjacency list}{
+					push $w$ to the front of $S$ \;
+				}
+			}
+		}
+	\end{algorithm}
 	
-	\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \qquad \= \kill
-		mark all vertices as unexplored \\
-		$S$ := a stack data structure, init with $s$ \\
-		while $S$ is not empty do \\
-		\> pop the vertex $v$ from the front of $S$ \\
-		\> if $v$ is unexplored then \\
-		\> \> mark $v$ as explored \\
-		\> \> for each edge $(v,w)$ in $v$'s adjacency list do \\
-		\> \> \> push $w$ to the front of $S$
-	\end{tabbing}
 	\pagebreak
 	
-	\begin{center}
-		\begin{large}
-			\textbf{Recursive Implementation}
-		\end{large}
-	\end{center}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Recursive Implementation of DFS}
+		\BlankLine
+		\hrule
+		\BlankLine
+		\SetKwFunction{FDFS}{DFS}
+		\SetKwProg{Fn}{Func}{:}{}
+		\Fn{\FDFS{$G,v$}}{
+			mark $s$ as explored and all other as unexplored \;
+			\ForEach{edge $(s,v)$ in $s$'s adjacency list}{
+				\If{$v$ is unexplored}{
+					\FDFS{$G,v$} \;
+				}
+			}
+		}
+	\end{algorithm} 
+	Runtime - $O(m + n)$
 	
-	\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \qquad \= \kill
-		Func DFS($G,v$) \\
-		\> mark $s$ as explored and all other as unexplored \\
-		\> for each edge $(s,v)$ in $s$'s adjacency list do \\
-		\> \> if $v$ is unexplored then\\
-		\> \>  \> DFS($G,v$)
-	\end{tabbing} Runtime - $O(m + n)$
 	\section{Topological Sort}
 	
 	\begin{center}
@@ -117,7 +155,7 @@
 	\begin{itemize}
 		\item Topological orderings do not exist in directed cyclic graphs.
 		\item Every DAG has a topological ordering.
-	\end{itemize}	
+	\end{itemize}   
 	
 	\vspace{0.3mm}
 	
@@ -127,27 +165,48 @@
 		\end{large}
 	\end{center}
 	\vspace{0.1mm}
-	DAG $G = (V,E)$ in adjacency list representation is given a $f$ value for every vertex constituting a topological ordering. it used DFS-Topo which assigns every vertex reachable from a vertex $s$ an $f$-value.
-	\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \kill
-		Func TopoSort$(G)$ \\
-		\> mark all vertices as unexplored \\
-		\> curLabel := $|V|$ \\
-		\> for every $v \in V$ do \\
-		\> \> if $v$ is unexplored then \\
-		\> \> \> DFS-Topo$(G,v)$
-	\end{tabbing}
+	DAG $G = (V,E)$ in adjacency list representation is given a $f$ value for every vertex constituting a topological ordering. It uses DFS-Topo which assigns every vertex reachable from a vertex $s$ an $f$-value.
 	
-	\begin{tabbing}
-		\qquad \= \qquad \= \qquad \= \kill
-		Func DFS-Topo$(G,s)$ \\
-		\> mark $s$ as explored \\
-		\> for each edge $(s,v)$ in $s$'s outgoing adjacency list do \\
-		\> \> if $v$ is unexplored then \\
-		\> \> \> DFS-Topo$(G,v)$ \\
-		\> $f(s)$ := curLabel \\
-		\> curLabel := curLabel - 1
-	\end{tabbing} curLabel is a global variable, initialised to $|V|$. Runtime is $O(m+n)$.
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{TopoSort}
+		\BlankLine
+		\hrule
+		\BlankLine
+		\SetKwFunction{FTopoSort}{TopoSort}
+		\SetKwFunction{FDFSTopo}{DFS-Topo}
+		\SetKwProg{Fn}{Func}{:}{}
+		\Fn{\FTopoSort{$G$}}{
+			mark all vertices as unexplored \;
+			$curLabel \leftarrow |V|$ \;
+			\ForEach{$v \in V$}{
+				\If{$v$ is unexplored}{
+					\FDFSTopo{$G,v$} \;
+				}
+			}
+		}
+	\end{algorithm}
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{DFS-Topo}
+		\BlankLine
+		\hrule
+		\BlankLine
+		\SetKwFunction{FDFSTopo}{DFS-Topo}
+		\SetKwProg{Fn}{Func}{:}{}
+		\Fn{\FDFSTopo{$G,s$}}{
+			mark $s$ as explored \;
+			\ForEach{edge $(s,v)$ in $s$'s outgoing adjacency list}{
+				\If{$v$ is unexplored}{
+					\FDFSTopo{$G,v$} \;
+				}
+			}
+			$f(s) \leftarrow curLabel$ \;
+			$curLabel \leftarrow curLabel - 1$ \;
+		}
+	\end{algorithm} 
+	curLabel is a global variable, initialised to $|V|$. Runtime is $O(m+n)$.
 	
 	\section{Strongly Connected Components}
 	A strongly connected component or SCC of a directed graph is a maximal subset $S \subseteq V$ of vertices such that there is a directed path from any vertex in $S$ to any other vertex in $S$.
@@ -155,7 +214,71 @@
 	Every directed graph can be viewed as directed acyclic graph built up from its SCCs.
 	
 	\subsection*{The SCC Meta-Graph is Directed Acyclic}
-	$Let G = (V,E)$ be a directed graph. Define the corresponding meta-graph $H = (X,F)$ with one meta-vertex  $x \in X$ per SCC of $G$ and a meta-edge $(x,y)$ in $F$ whenever there is an edge in G from a vertex in the SCC corresponding to $x$ to one in the SCC corresponding to $y$. Then $H$ is a directed acyclic graph. 
+	Let $G = (V,E)$ be a directed graph. Define the corresponding meta-graph $H = (X,F)$ with one meta-vertex  $x \in X$ per SCC of $G$ and a meta-edge $(x,y)$ in $F$ whenever there is an edge in G from a vertex in the SCC corresponding to $x$ to one in the SCC corresponding to $y$. Then $H$ is a directed acyclic graph.  \\[0.3mm]
 	
+	Therefore, it is basically a compressed graph where each SCC of the graph is compressed into a node.
+	
+	\subsection{Kosaraju}
+	\textbf{Corollary:} For a directed graph $G$, let $f(v), g(v)$ denote position of $v \in V$ as computed by TopoSort algorithm for $G$ and $G^{rev}$ respectively. Also, let $S_1,S_2$ denote two $SCCs$ of $G$ with an edge $(v,w)$ with $v \in S_1$ and $w \in S_2$.
+	\[
+	\underset{x \in S_1}{min} \, f(x) < \underset{y \in S_2}{min} \, f(y).
+	\]
+	\[
+	\underset{x \in S_1}{min} \, g(x) > \underset{y \in S_2}{min} \, g(y).
+	\]
+	We can see that the vertex $x$ with $f(x) = 1$ will be the source vertex i.e for two connecting $SCCs$ the one with $x$ will be the source of the directed edge. Therefore, for $G^{rev}$, it corresponds to a vertex $y$ such that $g(y) = 1$ and $y$ resides in the `sink' $SCC$. (Sink SCC is the SCC that connects to no other SCC). It is vital to identify these sink $SCCs$ for Kosaraju.
+	
+	\vspace{5mm}
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Kosaraju}
+		\KwIn{directed graph $G = (V,E)$ in adjacency-list representation, with $V = \{1,2,3, \ldots ,n\}$}
+		\KwOut{for every $v,w \in V, scc(v) = scc(w) \iff v,w$ are in the same $SCC$ of $G$}
+		\BlankLine
+		\BlankLine
+		\hrule
+		\BlankLine
+		$G^{rev} \leftarrow G$ with all edges reversed \;
+		mark all vertices of $G^{rev}$ as unexplored \;
+		\BlankLine
+		\tcp{computes $f(v)'s$ magical ordering}
+		TopoSort$(G^{rev})$ \;
+		\BlankLine
+		\tcp{finds SCCs in reverse topological order}
+		mark all vertices of $G$ as unexplored \;
+		$numSCC \leftarrow 0$ \;
+		\ForEach{$v \in V$ \textnormal{in increasing order} of $f(v)$}
+		{
+			\If{$v$ is unexplored}
+			{
+				$numSCC \leftarrow numSCC + 1$ \;
+				DFS-SCC$(G,v)$ \;
+			}
+		}
+	\end{algorithm}
+	\vspace{5mm}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{DFS-SCC}
+		\KwIn{directed graph $G = (V,E)$ in adjacency list representation, and a vertex $s \in V$.}
+		\KwOut{every vertex reachable from $s$ is marked as ``explored" and has an assigned $scc$-value.}
+		\BlankLine
+		\hrule
+		\BlankLine
+		mark $s$ as explored \;
+		$scc(s) \leftarrow numSCC$ \;
+		\ForEach{\textnormal{edge $(s,v)$ in $s$'s outgoing adjacency list}}
+		{
+			\If{$v$ \textnormal{is unexplored}}
+			{
+				DFS-SCC$(G,v)$
+			}
+		}
+	\end{algorithm}
+	\vspace{3mm}
+	Runtime: $O(m+n)$ where $m = |E| \land n = |V|$ \newline
+
+	Obvious Optimization - run DFS on the original graph, just go backwards on the edges.
 	
 \end{document}

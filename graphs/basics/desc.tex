@@ -1,18 +1,27 @@
 \documentclass{article}
-\usepackage{graphicx} 
-\usepackage{amssymb}
+
+
 \usepackage{amsmath}
-\usepackage{parskip}
-\usepackage{tikz}
-\usepackage[table]{xcolor}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+
 
 \title{Graph Basics}
 \author{Kanishk Goel}
 \parindent 0px
 
+\SetKwInput{KwAssume}{Simplifying assumption}
+
 \begin{document}
+	\SetAlgoCaptionLayout{centerline}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
 	\maketitle
-	
+	\SetAlgoNoEnd
 	\section{Basics}
 	Graph - vertices/nodes $V$, $|V| = n$ and edges $E$, $|E| = m$ \\ $G = (V,E)$, undirected graph - each edge corresponds to an unordered pair $\{v,w\}$ of vertices, which are called the endpoints of the edges. \\
 	directed graph - each edge $(v,w)$ is an ordered pair, $v$(tail) and $w$(head)
@@ -43,4 +52,19 @@
 	\end{enumerate}
 	memory requirement - $\Theta(n^2)$
 	Adjacency matrix is an efficient way of storing dense graphs but not sparse graphs.
+	\section{Cut of Graphs}
+	A cut of a graph $(V,E)$ is a partition of $V$ into two non-empty sets $A$ and $B$. 
+	
+	\textbf{Crossing Edges} The edges connecting one node from $A$ and one node from $B$.
+	\vspace{3mm}
+	
+	\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Problem: Minimum Cut Problem}
+	\KwIn{An undireced graph $G = (V,E)$ with parallel edges allowed.}
+	\KwOut{Compute a cut with fewest number of crossing edges} 
+	
+	\end{algorithm}
+	\vspace{5mm}
+	
 \end{document}

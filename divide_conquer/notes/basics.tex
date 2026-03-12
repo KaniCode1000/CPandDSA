@@ -1,0 +1,231 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+
+\title{Divide and Conquer}
+\author{Kanishk Goel}
+\date{22 February, 2026}
+\parindent 0px
+
+\SetKwInput{KwAssume}{Simplifying assumption}
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	\section{MergeSort}
+
+		
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Problem: Sorting}
+		\KwIn{An array of $n$ numbers in arbitrary order.}
+		\KwOut{Array with the same numbers, sorted in ascending order}
+	\end{algorithm}
+	\vspace{5mm}
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{MergeSort}
+		\KwIn{Array $A$ of $n$ distinct integers.}
+		\KwOut{Array with the same integers, sorted in ascending order}
+		\BlankLine
+		\If{$n \leq 1$}{
+			\Return{$A$}\
+		}\
+		
+		$C :=$ recursively sort first half of $A$\;
+		
+		$D :=$ recursively sort second half of $A$\;
+		
+		\Return{$\textnormal{Merge}(C,D)$}\;
+		  
+	\end{algorithm}
+	\vspace{5mm}
+	
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Merge}
+	\KwIn{Sorted arrays $C$ and $D$ (length $n/2$ each)}
+	\KwOut{Sorted array $B$ (length $n$)}
+	\KwAssume{$n$ is even}
+	\BlankLine
+	
+	$i := 1$\;
+	$j := 1$\;
+	
+	\For{$k := 1$ \KwTo $n$}{
+		\If{$i \le n/2$ \textbf{and} ($j > n/2$ \textbf{or} $C[i] \le D[j]$)}{
+			$B[k] := C[i]$\;
+			$i := i + 1$\;
+		}
+		\Else{
+			$B[k] := D[j]$\;
+			$j := j + 1$\;
+		}
+	}
+\end{algorithm}
+\vspace{5mm}
+
+	
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Problem: Counting Inversions}
+	\KwIn{An array $A$ of distinct integers.}
+	\KwOut{The number of inversions of $A$ i.e pairs $(i,j)$ of array indices with $i \le j$ and $A[i] \ge A[j]$.}
+\end{algorithm}
+\vspace{5mm}
+
+Used in Collaborative Filtering which is a technique for generating recommendations.
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{CountInversions}
+	\KwIn{array $A$ of $n$ distinct integers.}
+	\KwOut{sorted array $B$ with the same integers, and the number of inversions of $A$.}
+	\BlankLine
+	\If{$n=0 \lor n= 1$}{
+		\Return{$(A,0)$}\;
+	}\;
+	\Else{
+		$(C, leftInv)$ := CountInversions$($first half of A$)$ \;
+		$(D, rightInv)$ := CountInversions$($second half of A$)$ \;
+		$(B, splitInv)$ := CountSplitInversions$(C,D)$ \;
+		\Return{$(B, leftInv+rightInv+splitInv)$}
+	}\;
+\end{algorithm}
+\vspace{5mm}
+
+\begin{algorithm}
+	\SetAlgoLined
+	\caption{CountSplitInversions}
+	\KwIn{sorted arrays $C$ and $D$ (length $n/2$ each).}
+	\KwOut{sorted array $B$ (length $n$).}
+	\KwAssume{$n$ is even}
+	\BlankLine
+	$i$ := $1$, $j$ := $1$, $splitInv$ := $0$ \;
+	\BlankLine
+	\For{$k$ := $1$ to $n$}{
+		\If{$C[i] < D[j]$}{
+			$B[k]$ := $C[i]$, $i$ := $i+1$
+		}\;
+		\Else{
+			$B[k]$ := $D[j]$, $j$ := $j + 1$ \;
+			$splitInv$ := $splitInv + (\frac{n}{2} - i + 1)$
+		}\;
+	}\;
+	\Return{$(B,splitInv)$}
+\end{algorithm}
+
+The idea used is equivalent to merge subroutine of mergesort.
+
+\section{QuickSort}
+The pseudocode for quicksort: 
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{QuickSort}
+	\KwIn{array $A$ of n distinct integers, left and right endpoints $l,r \in \{1,2,3 \ldots ,n\}.$}
+	\KwOut{Elements of the subarray $A[l],A[l+1], \ldots , A[r]$ are sorted from smallest to largest.}
+	\BlankLine
+	\If{$l \geq r$}{
+		\Return{}
+	}
+	$i \leftarrow$ ChoosePivot$(A,l,r)$ \;
+	swap $A[l]$ and $A[i]$ \;
+	$j \leftarrow$ Partition$(A,l,r)$ \;
+	QuickSort$(A,l,j-1)$ \;
+	QuickSort$(A,j+1,r)$ \;
+\end{algorithm}	
+\vspace{5mm}
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Partition}
+	\KwIn{array $A$ of $n$ distinct integers, left and right endpoints $l,r \in \{1,2 \ldots , n\} with l \leq r$.}
+	\KwOut{Elements of the subarray $A[l], \ldots , A[r]$ are partitioned around $A[l]$. Final output is the position of the pivot element.}
+	\BlankLine
+	$p \leftarrow A[l]$ \;
+	$i \leftarrow l+1$ \;
+	\For{$j \leftarrow l+1$ to $r$}{
+		\If{$A[j] \ge p$}{
+			swap $A[j]$ and $A[i]$ \;
+			$i \leftarrow i +1$ \;
+		}
+	}
+	swap $A[l]$ and $A[i-1]$ \;
+	\Return{$i-1$}
+\end{algorithm}
+\vspace{2mm}	
+Now the idea of choosing pivot is important, randomized pivot selection has an average running time of $O(n \log n)$
+
+\section{Selection Problem}
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Problem: Selection}
+	\KwIn{An array $A$ of $n$ numbers, in arbitrary order, and an integer $i \in \{1,2, \ldots , n\}$. }
+	\KwOut{The $i^{th}$ smallest element of $A$ or the $i^{th}$ order statistic.}
+	\BlankLine
+\end{algorithm}	
+\vspace{2mm}
+There are two algorithms one is RSelect which is a randomized select algorithm with an average case of $O(n)$. The other is DSelect.
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{RSelect}
+	\KwIn{array $A$ of $n \geq 1$ distinct numbers, and an integer $i \in \{1,2, \ldots , n\}$}
+	\KwOut{the $i^{th}$ order statistic of $A$.}
+	\BlankLine
+	\If{$n=1$}{
+		\Return{$A[1]$}
+	}
+	choose pivot element $p$ at random from $A$ \;
+	partition $A$ around $p$ \;
+	$j \leftarrow p$'s position in partitioned array \;
+	\If{$j = i$}{
+		\Return{$p$}
+	} \;
+	\ElseIf{$j > i$}{
+		\Return{RSelect(first part of $A$, $i$)}
+	} \;
+	\Else{
+		\Return{RSelect(second part of $A$, $i$)}
+	}
+\end{algorithm}	
+\vspace{5mm}
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{DSelect}
+	\KwIn{array $A$ of $n \geq 1$ distinct numbers, and an integer $i \in \{1,2, \ldots , n\}$}
+	\KwOut{the $i^{th}$ order statistic of $A$.}
+	\BlankLine
+	\If{$n=1$}{
+		\Return{$A[1]$}
+	} \;
+	\For{$h \leftarrow 1$ to $\frac{n}{5}$}{
+		$C[h] \leftarrow$ middle element from the $h^{th}$ group of 5
+	} \;
+	$p \leftarrow DSelect(c,\frac{n}{10})$\;
+	partition $A$ around $p$ \;
+	$j \leftarrow p$'s position in partitioned array \;
+	\If{$j = i$}{
+		\Return{$p$}
+	} \;
+	\ElseIf{$j > i$}{
+		\Return{DSelect(first part of $A$, $i$)}
+	} \;
+	\Else{
+		\Return{DSelect(second part of $A$, $i$)}
+	}
+\end{algorithm}
+
+
+
+\end{document}
