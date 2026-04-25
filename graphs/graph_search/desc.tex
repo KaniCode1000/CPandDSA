@@ -11,7 +11,6 @@
 \SetAlgoCaptionLayout{centerline}
 
 \begin{document}
-	\maketitle
 	\SetAlgoCaptionSeparator{}
 	\renewcommand{\thealgocf}{} 
 	\renewcommand{\AlCapNameFnt}{\bfseries}
@@ -19,7 +18,10 @@
 	\DontPrintSemicolon
 	\renewcommand{\algorithmcfname}{}
 	\maketitle
+	\tableofcontents
 	\SetAlgoNoEnd
+	
+	\newpage 
 	
 	\section{Free Primitives}
 	Treat any algorithm with linear running time as something we can essential use for free.
