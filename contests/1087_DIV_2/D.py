@@ -28,10 +28,10 @@ while (t!=0):
     alll.remove(mini)
     alll.remove(maxi)
     mid = alll[0]
-    if (maxx == minn):
-
     combo = maxi+mid+maxi+mini
     ans = ""
+    if (maxx == minn):
+        ans +=     
     if (2*(minn) > maxx):
         ans = combo*(maxx//2) + (maxx%2)*maxi
         combination = mid+mini

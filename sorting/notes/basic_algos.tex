@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+\title{Sorting}
+\author{Kanishk Goel}
+\date{9 May, 2026}
+\parindent 0px
+
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
+	\section{Counting Sort}
+	non comparision based stable sorting algorithm. Good when the range of elements are $< n \; log \; n$.
+	
+	\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Solution}
+	$A \leftarrow$ initialise input array \;
+	$m \leftarrow max(A)$ \;
+	$freq \leftarrow m+1$ length array with counts of every element $i$ at $freq[i]$ \;
+	Compute prefix sum \;
+	$ans \leftarrow$ initialise answer array \;
+	\For{$i \leftarrow n-1$ to $0$}
+	{
+		$ans[freq[i] - 1] \leftarrow A[i]$ \;
+		$freq[i]  = freq[i] - 1$ \;
+	} 
+	\end{algorithm}
+	\vspace{2mm}
+	Runtime - $O(n)$, is not an in-place sorting algorithm and requires $O(n)$ space as well.
+	\section{Radix Sort}
+	Runs a stable sorting algorithm for individual units of each element from right to left. Works only on the assumption of an upperbound on length of elements. \newline \newline
+	Runtime - $O(d \times (b+n))$ where $d$ is the number of digits, $b$ is the base of number system used. Space required is $O(n+b)$
+	
+	\section{Bucket Sort}
+	Create $n$ empty buckets, each bucket is a linked list. Sort each bucket using insertion sort and then combine all buckets. 
+	\begin{itemize}
+		\item Worst Case - $O(n^2)$  (when one bucket gets all the elelments)
+		\item Best Case - $O(n+k)$ (when every bucket gets equal number of elements). Assumes k is linearly proportional to $n$. 
+		\item Space - $O(n+k)$
+	\end{itemize}
+	
+\end{document}

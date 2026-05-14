@@ -1,0 +1,93 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+\title{Directed Graph Search Algorithms}
+\author{Kanishk Goel}
+\date{14 November 2025}
+\parindent 0px
+
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
+	\section{Dijkstra}
+		\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Single-Source Shortest Paths}
+		\KwIn{A directed graph $G = (V,E)$, a starting vertex $s \in V$, and a nonnegative length $l_e$ for each edge $e \in E$}
+		\KwOut{$dist(s,v)$ for every vertex $v \in V$}
+		\end{algorithm}
+		\vspace{5mm}
+		\begin{algorithm}[H]
+			\SetAlgoLined
+			\caption{Dijkstra}
+			\KwIn{directed graph $G = (V,E)$ in adjacency-list representation, a vertex $s \in V$, a length $l_e \geq 0$ for each $e \in E$}
+			\KwOut{for every $v$, the value $len(v)$ equals the true shortest-path distance $dist(s,v)$.}
+			\BlankLine
+			\BlankLine
+			\hrule
+			\BlankLine
+			\tcp{Initialization}
+			$X \leftarrow \{s\}$ \;
+			$len(s) \leftarrow 0, \, len(s) \leftarrow \inf,$ for every $v \neq s$ \;
+			\While{\textnormal{there is an edge} $(v,w)$ \textnormal{with} $v \in X, w \notin X$}
+			{
+			$(v^*,w^*) \leftarrow$ such an edge minimizing $len(v) + l_{vw}$ \;
+			add $w^*$ to $X$ \;
+			$len(w^*) \leftarrow len(v^*) + l_{v^*w^*}$
+			}
+		\end{algorithm}
+		Runtime being $O(mn)$ if heap is not used.
+
+		\vspace{5mm}
+		
+		\begin{algorithm}[H]
+			\SetAlgoLined
+			\caption{Dijkstra}
+			\KwIn{directed graph $G = (V,E)$ in adjacency-list representation, a vertex $s \in V$, a length $l_e \geq 0$ for each $e \in E$}
+			\KwOut{for every $v$, the valye $len(v)$ equals the true shortest-path distance $dist(s,v)$.}
+			\BlankLine
+			\BlankLine
+			\hrule
+			\BlankLine
+			\tcp{Initialization}
+			$X \leftarrow \{\}, \, H \leftarrow$ empty heap \;
+			$key(s) \leftarrow 0$ \;
+			\ForEach{$v \neq s$}
+			{
+			$key(v) \leftarrow \infty$ \;
+			}
+			\ForEach{$v \in V$}
+			{
+				\title{Insert} $v$ into $H$ \: \tcp{or use Heapify}
+			}
+			\tcp{Main Loop} 
+			\While{$H$ \textnormal{is non-empty}} 
+			{
+				$w^{*} \leftarrow$ \title{ExtractMin$(H)$} \;
+				add $w^*$ to $X$\;
+				$len(w^*) \leftarrow key(w*)$ \;
+				\tcp{update heap to maintain invariant}
+				\ForEach{edge $(w^*,y)$}
+				{
+					\title{Delete} $y$ from $H$ \;
+					$key(y) \leftarrow$ min$\{key(y),len(w^*) + l_{w^*y}\}$ \;
+					\title{Insert} $y$ into $H$
+				}
+			}
+		\end{algorithm}
+		Runtime being $O\left((m+n)\log n\right)$ if heap is used.
+	
+	
+	
+\end{document}

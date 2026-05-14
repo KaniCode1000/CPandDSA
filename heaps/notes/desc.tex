@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+\title{Heap Data Structure}
+\author{Kanishk Goel}
+\date{14 November 2025}
+\parindent 0px
+
+\SetKwInput{Kwemin}{ExtractMin}
+\SetKwInput{Kwfm}{FindMin}
+\SetKwInput{Kwheapify}{Heapify}
+\SetKwInput{Kwinsert}{Insert}
+\SetKwInput{Kwdel}{Delete}
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
+	\section{Heaps}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Heaps Basic Operations}
+		\Kwinsert{given a heap $H$ and a new object $x$, add $x$ to $H$. $(O(log n))$}
+		\BlankLine
+		\Kwemin{given a heap $H$, remove and return from $H$ an object with the smallest key. $(O(log n))$}
+		\BlankLine
+		\Kwfm{given a heap $H$, return an object with the smallest key. $(O(1))$}
+		\BlankLine
+		\Kwheapify{given objects $x_1,x_2,\ldots,x_n$ , create a heap containing them. $(O(n))$}
+		\BlankLine
+		\Kwdel{given a heap $H$ and a pointer to an object $x$ in $H$, delete $x$ from $H$. $(O(log n))$}
+		
+	\end{algorithm}
+	
+	\section{HeapSort}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{HeapSort}
+		\KwIn{An array of $n$ numbers, in arbitraty order.}
+		\KwOut{An array of the same numbers, sorted from smallest to largest.}
+		\BlankLine
+		\BlankLine
+		\hrule
+		\BlankLine
+		$H \leftarrow$ empty heap \;
+		\For{$i = 1$ to n}
+		{
+			\title{Insert} $A[i]$ into $H$ \;
+		}
+		 
+		\For{$i = 1$ to n}
+		{
+			$B[i] \leftarrow$ \title{ExtractMin} from $H$ \;
+		} 
+		
+	\end{algorithm}
+	\vspace{5mm}
+	\newpage
+	\section{Median Maintenance}
+	\textbf{Question:} Given a sequence of numbers, present the median of the numbers every time a new number is given. \newline
+	
+	\textbf{Solution:} Keep a Min Heap $H_1$ and a Max Heap $H_2$, keep both the heaps balanced, i.e having equal number of elements for $2k$ elements and for odd iteration $(2k+1)$, a discrepancy of $1$.  \newline
+	
+	Idea is that the maximum element of $H_2$ and/or minimum element of $H_1$ will be the median. Therefore, for $i^{th}$ iteration, insert the element based on comparision with the previous median. To keep the balancing property, only edge case is that of a new element coming in at $2k+1$ elements total. Here, one heap might have $k+1$ and other $k-1$ elements. So, just extract min/max based on the heap type and insert it into the other heap. \newline
+	
+	\textbf{Runtime:} $O(log \, i)$ for each $i^{th}$ iteration, since a constant number of heap operations are being done every iteration.
+	
+\end{document}
+

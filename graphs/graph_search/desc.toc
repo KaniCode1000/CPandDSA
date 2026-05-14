@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Free Primitives}{2}{}%
+\contentsline {section}{\numberline {2}Generic Graph Search}{2}{}%
+\contentsline {section}{\numberline {3}Breadth First Search}{2}{}%
+\contentsline {section}{\numberline {4}Connected Components}{2}{}%
+\contentsline {section}{\numberline {5}Depth First Search}{3}{}%
+\contentsline {section}{\numberline {6}Topological Sort}{4}{}%
+\contentsline {section}{\numberline {7}Strongly Connected Components}{5}{}%
+\contentsline {subsection}{\numberline {7.1}Kosaraju}{5}{}%

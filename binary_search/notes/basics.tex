@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+
+\title{Binary Search}
+\author{Kanishk Goel}
+\date{10 May, 2026}
+\parindent 0px
+
+\SetKwInput{KwAssume}{Simplifying assumption}
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	\section{Binary Search}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Binary Search}
+		left $\leftarrow 0$ \;
+		$n \leftarrow$ length of array $A$ \;
+		right $\leftarrow n-1$ \;
+		\While{left $\leq$ right}
+		{
+			mid $\leftarrow$ $\frac{\text{left} + \text{right}}{2}$ \;
+			\If{mid $=$ target}
+			{
+				\Return{mid} \;
+			}
+			\ElseIf{mid $\leq$ target}
+			{
+				left $\leftarrow$ mid+1 \;
+			}
+			\Else
+			{
+				right $\leftarrow$ mid-1 \;
+			}
+		}
+		\Return{Not Found} \;
+	\end{algorithm}	
+	\vspace{5mm}
+	\section{Lower-Upper Bound}
+		\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Lower Bound}
+		left $\leftarrow 0$ \;
+		first\_match $\leftarrow$ -1 \;
+		$n \leftarrow$ length of array $A$ \;
+		right $\leftarrow n-1$ \;
+		\While{left $\leq$ right}
+		{
+			mid $\leftarrow$ $\frac{\text{left} + \text{right}}{2}$ \;
+			\If{mid $=$ target}
+			{
+				right = mid-1\;
+				first\_match = mid \;
+			}
+			\ElseIf{mid $\leq$ target}
+			{
+				left $\leftarrow$ mid+1 \;
+			}
+			\Else
+			{
+				right $\leftarrow$ mid-1 \;
+			}
+		}
+		\Return{first\_match} \;
+	\end{algorithm}
+	\vspace{3mm}
+	For upperbound, the $\text{right} = \text{mid}-1$ condition in the if block will change to $\text{left} = \text{mid}+1$, rest remains the same.
+\end{document}

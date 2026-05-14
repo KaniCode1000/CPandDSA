@@ -1,0 +1,74 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+\title{Suffix Array}
+\author{Kanishk Goel}
+\date{7 May, 2026}
+\parindent 0px
+
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
+	\section{Suffixes}
+	For a string abcde, suffixes are abcde, bcde, cde, de and e.
+	
+	\section{Suffix Array}
+	A suffix array contains empty string as well. It is the lexicographical order of all suffixes.
+	Storing it would require $O(n^2)$ space, so we store the indexes of the strings at the place which they start in the original string. \newline
+	
+	For example - ababba
+	\begin{enumerate}
+		\setcounter{enumi}{-1}
+		\item (6)
+		\item a (5)
+		\item ababba (0)
+		\item abba (2)
+		\item ba (4)
+		\item babba (1)
+		\item bba (3)
+	\end{enumerate}
+	where $(\cdot)$ indicates the numbering of the index i.e the way it is stored in the suffix array. \newline
+	
+	The algorithm is made simpler by adding a new symbol which is treated as the smallest symbol in place of the empty string, then everything is made of in powers of 2 by adding some filler strings in the suffixes. Each filler character is simply its $index \; mod \; (length \, of \, string)$.
+	
+	\section{Algorithm Idea}
+	Start with base $k = 0$, this means we are comparing all strings by the first character. Use any $O(n \, log \, n)$ sort for this step. The algorithm is divided into $log \, n$ iterations. For $k^{th}$ iteration, the string $s$ contains $s[i \ldots i+ 2^k - 1]$ slice. (Here $i$ is the index of the suffix and is computed $i \, mod \, n$) \newline
+	
+	To compare string of length $2^{k+1}$, we first compare the number we gave to left part of the string, if lefts are unequal, we don't need to compare the right, else compare right.  \newline
+	
+	Done quickly through use of \textbf{Prefix Doubling}.
+	
+	\section{Prefix Doubling}
+	
+	DP technique to compare $2^n$ length strings. 
+	\subsection{Base Case$(2^0)$}
+	You compare the length $1$ strings directly and assign equivalence classes. For example a,b,a get 1,2,1.
+	
+	\subsection{Transition $2^k$ to $2^{k+1}$}
+	Divide into $2^{k+1}$ strings and for $k$ the classes have been computed. Compare left half, if equal compare right half. So, the comparision step becomes $O(1)$.
+	
+	\subsection{The DP}
+	For example, banana is the string, for k = 0, we insert into DP[k][i] (null strings are represented as \$) as follows: \newline 
+	
+	Dp[k=0] = [b,a,n,a,n,a,\$] = [2,1,3,1,3,1,0] \newline 
+	
+	Dp[k=1] = [ba,an,na,an,na,a\$,\$b] = [3,2,4,2,4,1,0] 
+	
+	according to the rule of pairs  (DP[$k=1$][$i$],DP[$k=1$][$i+2^{k-1}$]), 
+	
+	therefore, what was sorted - [(2,1),(1,3) and so on]
+	
+	
+\end{document}
