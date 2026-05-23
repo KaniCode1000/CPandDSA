@@ -41,7 +41,7 @@
 	\end{enumerate}
 	where $(\cdot)$ indicates the numbering of the index i.e the way it is stored in the suffix array. \newline
 	
-	The algorithm is made simpler by adding a new symbol which is treated as the smallest symbol in place of the empty string, then everything is made of in powers of 2 by adding some filler strings in the suffixes. Each filler character is simply its $index \; mod \; (length \, of \, string)$.
+	The algorithm is made simpler by adding a new symbol which is treated as the smallest symbol in place of the empty string, then everything is made of in powers of 2 by adding the cyclic string as filler strings in the suffixes. Each filler character is therefore, simply its $index \; mod \; (length \, of \, string)$.
 	
 	\section{Algorithm Idea}
 	Start with base $k = 0$, this means we are comparing all strings by the first character. Use any $O(n \, log \, n)$ sort for this step. The algorithm is divided into $log \, n$ iterations. For $k^{th}$ iteration, the string $s$ contains $s[i \ldots i+ 2^k - 1]$ slice. (Here $i$ is the index of the suffix and is computed $i \, mod \, n$) \newline
@@ -70,5 +70,49 @@
 	
 	therefore, what was sorted - [(2,1),(1,3) and so on]
 	
+	\section{Substring Search}
+	\textbf{Question:} Suppose we have a string $s$ and need to answer requests of string $p$, i.e whether it is a substring of string $s$ or not.  \newline
 	
+	\textbf{Solution:} Cut off $|p|$ part of each substring, we get a suffix array, with sorted $|p|$ length strings, use binary search, to find the string $p$ now. \newline
+	
+	\textbf{Runtime:} $O(|p|\log n)  $
+	
+	\section{LCP Array}
+		\begin{algorithm}[H]
+			\SetAlgoLined
+			\caption{Problem: Largest Common Prefix Between Two Suffixes}
+			\KwIn{Pair $(i,j)$, the pair of suffix substrings in the suffix array to find the largest common prefix in.}
+			\KwOut{An LCP array that allows for finding largest common prefix between any pairs of suffixes in the suffix array in linear time.}
+		\end{algorithm}	
+		\vspace{3mm}
+		\subsection{Idea} 
+			 Build an lcp array, with largest common prefixes of consecutive strings, in the order of suffix array. Then for any pair, $(i,j)$, traverse this lcp array from $i$ to $j$ (assuming $i<j$), and the answer is $min(lcp[k]) \; \forall \, k \in [i,j]$. \newline
+			 
+			 Calculating the minimum on a segment of lcp array is done through sparse table ($O(n \, log \, n)$ construction and $O(1)$ retrieval) or segment tree ($O(n)$ construction and $O(log \, n)$ retrieval).
+		
+		\subsection{How to Build}
+		Let suffix $j$ be before $i$ in the suffix array and they have $k > 0$ common characters. Then the suffixes $i+1$ and $j+1$ have $k-1$ common characters at the very least. So, we start from $k-1$. \newline
+		
+		\textbf{Time Complexity:} $O(n \, log \, n)$ to build the suffix array, and $O(n)$ for lcp array building.
+		
+	\section{Applications}
+	\subsection{Number of Different Substrings}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Problem: Number of Different Substrings}
+		\KwIn{String $s$.}
+		\KwOut{Number of different substrings of $s$.}
+	\end{algorithm}	
+	\vspace{3mm}
+	\textbf{Solution:} Let length of string be $n$. Number of repeated substrings equals $\frac{n (n+1)}{2}$. Number of substrings that have been repeated are included in the LCP array. This is because each substring is a prefix of a suffix in the suffix array. Hence, the answer is simply $\frac{n(n+1)}{2} -$ sum of lcp array.
+	
+		\subsection{Longest Common Substring}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Problem: Longest Common Substring}
+		\KwIn{String $s$ and $t$.}
+		\KwOut{Longest string common to both $t$ and $s$.}
+	\end{algorithm}	
+	\vspace{3mm}
+	\textbf{Solution:} Combine $s$ and $t$ using a delimiter not found in both strings. Divide the suffix array thus formed into two classes, those from $s$ and those from $t$. Now find the largest LCP($i,j$) for consecutive $i$ and $j$ such that one belongs from class $s$ and other from class $t$.
 \end{document}

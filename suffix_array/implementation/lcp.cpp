@@ -74,14 +74,42 @@ vector<int> suffix_array(string s){
 	return p;
 }
 
-int main(){
-	string s;
-	cin >> s;
+vector<int> lcp_array(string s, vector<int>& p) {
+    s += '$';
+    int n = s.size();
+
+    vector<int> rnk(n);
+    for (int i = 0; i < n; i++) rnk[p[i]] = i;
+
+    vector<int> lcp(n - 1, 0);
+    int k = 0;
+    for (int i = 0; i < n; i++) {
+        int pos = rnk[i];
+        if (pos == n - 1) { k = 0; continue; }
+        int j = p[pos + 1];
+        while (max(i, j) + k < n && s[i + k] == s[j + k]) k++;
+        lcp[pos] = k;
+        if (k) k--;
+    }
+    return lcp;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+    	cin.tie(nullptr);
+
+    	string s;
+    	cin >> s;
 	int n = s.size();
-	vector<int> p(1+n);
-	p = suffix_array(s);
-	for (int i = 0;i<1+n;i++){
+	vector<int> p   = suffix_array(s);
+	vector<int> lcp = lcp_array(s, p);
+	for (int i = 0;i<n+1;++i){
 		cout << p[i] << " ";
 	}
 	cout << endl;
+	for (int i =0;i<n;++i){
+		cout << lcp[i] << " ";
+	}
+	cout << endl;
+	return 0;
 }

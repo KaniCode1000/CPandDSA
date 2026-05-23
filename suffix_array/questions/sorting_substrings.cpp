@@ -80,8 +80,30 @@ int main(){
 	int n = s.size();
 	vector<int> p(1+n);
 	p = suffix_array(s);
-	for (int i = 0;i<1+n;i++){
-		cout << p[i] << " ";
+	int N;
+	cin >> N;
+	vector<tuple<int,int,int,int>> ans(N);
+	int l,r;
+	for (int i = 0;i<N;++i){
+		cin >> l >> r;
+		ans[i] = {p[l-1],r-l+1,l,r};
 	}
-	cout << endl;
+	vector<tuple<int,int,int,int>> sorted_ans(N);
+	for (int k = 3; k >= 0;--k){
+		vector<int> freq(n+1,0);
+		for (int i = 0;i<N;++i){
+			freq[get<k>(ans[i])]++;	
+		}
+		for (int i = 1;i<=n;++i){
+			freq[i] += freq[i-1];
+		}
+		for (int i = N-1;i>=0;--i){
+			sorted_ans[--freq[get<k>(ans[i])]] = ans[i];
+		}
+		ans.swap(sorted_ans);
+	}
+	for (int i = 0;i<N;++i){
+		cout << get<2>(ans[i]) << " " << get<3>(ans[i]) << endl;
+	}
 }
+

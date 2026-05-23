@@ -1,0 +1,106 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+\title{Prime Numbers}
+\author{Kanishk Goel}
+\date{16 May 2026}
+\parindent 0px
+
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	%\tableofcontents
+	\SetAlgoNoEnd
+	
+	\section{Sieve of Eratosthenes}
+	Used to find all prime numbers in a segment $[1:n]$ \newline
+	
+	\textbf{Idea:} Mark all proper multiples of $2$ as composite, find the next non composite number ($3$ in this case), mark all its proper multiples as composite and so on. \newline
+	
+	\textbf{Runtime:} $O(n \; log (log (n)))$ and space complexity is $O(n)$.
+	
+	\subsection{Prime Number Facts}
+		\begin{itemize}
+			\item number of prime numbers less than or equal to $n$ are $\frac{n}{logn}$
+			\item $k^{th}$ prime number approximately equals $k \, {ln(k)}$. 
+		\end{itemize}
+		
+	\subsection{Optimizations}
+		\begin{itemize}
+			\item sieving till root.
+			\item sieving by odd numbers only.
+			\item starting the sieve check for a prime number $p$ from $p \cdot p$ because any multiple of $p$ less than that has been marked by a prime number smaller than $p$.
+			\item Better to use vector \textless bool \textgreater \, instead of vector \textless char\textgreater \, because it takes lesser memory hence is able to utilise cache better. ( \textless bool\textgreater \, is N/8 bytes while char is N bytes (bits vs bytes) Although architecture utilises bytes better, cache optimization in less memory load is significantly more helpful.)
+		\end{itemize}
+	\newpage
+	\section{Segmented Sieve}
+	Instead of storing the entire array $\texttt{is\_prime}[1 \dots n]$, it is sufficient to store only the primes up to $\sqrt{n}$. The range $[1,n]$ is divided into blocks of size $S$.
+	
+	The $k$-th block contains:
+	\[
+	[kS,\; kS + S - 1]
+	\]
+	for
+	\[
+	k = 0,1,\dots,\left\lfloor \frac{n}{S} \right\rfloor.
+	\]
+	
+	For each block:
+	\begin{itemize}
+		\item Iterate through all primes $\le \sqrt{n}$.
+		\item Mark their multiples within the current block as composite.
+	\end{itemize}
+	
+	Special care is needed for:
+	\begin{itemize}
+		\item Preventing primes $\le \sqrt{n}$ from marking themselves.
+		\item Marking $0$ and $1$ as non-prime.
+		\item $n$ is not necessarily at the end of the last block.
+	\end{itemize}
+	
+	Time Complexity: $O(n \log\log n)$ and Memory Usage: $O(\sqrt{n} + S).$ \newline
+	
+	This approach also improves cache efficiency. However, very small block sizes increase division overhead, so practical block sizes are usually chosen between $10^4 \text{ and } 10^5.$
+	
+	\section{Linear Sieve}
+	Maintains an array $lp$, $lp[i]$ denotes minimum prime factor of $i$. $lp[i] = i$ for primes $i$ eventually.
+	Therefore, requires $O(n)$ memory space. It should thus be used for not more than $n = 10^7$.
+	Initially, $lp[i] = 0, \, \forall i$. \vspace{2mm}
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Algorithm}
+		$lp[i] \leftarrow 0 \: \forall \, i$ \;
+		pr $\leftarrow$ empty vector \;
+		 \ForEach{$2 \leq i \leq N, \, i+=1$}
+		 {
+		 	\If{$lp[i] = 0$}
+		 	{
+		 		$lp[i] \leftarrow i$ \;
+		 		Push $i$ into $pr$ \;
+		 	}
+		 }
+		 
+		 \ForEach{$j \geq 0$ such that $i \times pr[j] \leq n, \, i+=1$}
+		 {
+		 	$lp[i \times pr[j]] \leftarrow pr[j] $\;
+		 	\If{$pr[j] == lp[i]$}
+		 	{
+		 		break \;
+		 	}
+		 }
+	\end{algorithm}
+	\vspace{2mm}
+	
+	Practically this algorithm runs as fast as normal sieve of eratosthenes, and slower than optimized versions such as segmented sieve. But, it can be used to find factorization of numbres, which is extremely uesful.
+\end{document}
+	
