@@ -2,38 +2,36 @@
 
 using namespace std;
 
-//K. Kims Quest Codeforces
+// 1912K. Kim's Quest - Codeforces
 
 int main(){
+	const long long mod = 998244353;
 	int n;
 	cin >> n;
 	vector<int> a(n);
 	for (int i = 0;i<n;++i){
 		cin >> a[i];
-		a[i] &= 1;
+		a[i]%=2;
 	}
 	long long dp[2][2] = {{0,0},{0,0}};
-	long long cnt = 0;
-	long long oc = 0;
-	oc += a[0] + a[1];
-	dp[a[0]][a[1]] = 1;
-	long long mod = 998244353;
-	for (int i = 2;i<n;++i){
+	int cnte = 0,cnto = 0;
+	long long ans = 0;
+	for (int i = 0;i<n;++i){
 		if (a[i]){
-			long long val = dp[0][1] + dp[1][0];
-			val %= mod;
-			cnt += val;
-			cnt %= mod;		
+			ans += (dp[1][0] + dp[0][1]) % mod;
+			ans %= mod;
+			dp[1][1] += (dp[0][1] +cnto)%mod;
+			dp[0][1] += (cnte + dp[1][0])%mod;
+			cnto++;
 		}
 		else{
-			long long val = dp[0][0] + dp[1][1];
-			val %= mod;
-			cnt += val;
-			cnt %= mod;
+			ans += (dp[0][0] + dp[1][1]) % mod;
+			ans %= mod;
+			dp[0][0] += (cnte + dp[0][0])%mod;
+			dp[1][0] += (dp[1][1] +cnto)%mod;
+			cnte++;
+			
 		}
-		dp[0][a[i]] += i-oc;
-		dp[1][a[i]] += oc;
-		oc += a[i];
 	}
-	cout << cnt << endl;
+	cout << ans << endl;
 }
