@@ -1,0 +1,4 @@
+stack - min stack
+m1queue - min queue
+m2queue - min queue without needing to know removing element for remove operation
+m3queue - store all values and remove element without knowing its value but complicated to implement

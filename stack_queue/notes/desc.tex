@@ -4,9 +4,9 @@
 \usepackage[boxed,vlined,boxruled]{algorithm2e}
 
 
-\title{Fundamental Data Structures}
+\title{Stacks and Queues}
 \author{Kanishk Goel}
-\date{24 February, 2026}
+\date{2 June, 2026}
 \parindent 0px
 
 \SetKwInput{KwAssume}{Simplifying assumption}
@@ -28,5 +28,59 @@
 	\textbf{Modification: } Instead of an element, make a stack of pairs, where the second element is the minimum found till that element.
 	
 	\section{Minimum Queue}
+	Remember head - Dequeue position, Tail - Enqueue position. \newline
+	
+	\textbf{Objective:} To modify queue such that we can find the minimum of queue in $O(1)$.
+	\subsection{Method 1}
+	Smallest value will always be stored at the head. This method doesn't store all the elements.
+	The queue will be kept in nondecreasing order with the smallest value on the head.
+	
+	\subsubsection{Adding elements}
+	While adding elements to the tail, we require the element to be the maximum, therefore, we remove all the trailing elements bigger than the element we are adding first. This operation is allowed because the elements we removed will never be the minimum of the array.
+	
+	\subsubsection{Removing elements} 
+	We check if the value at the head is equal to the value of the element we wish to remove. If it is, then we remove the element, otherwise we do nothing.
+	
+	\subsubsection{Runtime}
+	Since every element is only pushed and/or popped once, the average runtime is $O(1)$.
+	
+	\subsection{Modification to Method 1}
+	To not need to know which element is it we are removing, we can store the index for each element in the queue and remember how many elements we already have added and removed.
+	
+	\subsection{Method 2}
+	A complicated implementation, but this way we can store all elements and also remove an element without knowing its value. \newline
+	
+	The idea is to simulate a queue using two stacks. We make two min stacks $s1$ and $s2$. We will add new elements to $s1$ and remove elements from $s2$. If $s2$ is empty, we move all elements from $s1$ to $s2$. Minimum of the queue here equals to minimum of both the stacks.
+	
+	\subsubsection{Runtime}
+	$O(1)$ because each element is stored in $s1$ once, transferred to $s2$ once and once popped from $s2$.
+	
+	\subsection{Application}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Finding minimum for all subarrays of given length $M$}
+		\KwIn{Array $A$ of length $N$ and $M$ such that $M \leq N$}
+		\KwOut{Linear time solution for the same.}
+	\end{algorithm}
+	\vspace{5mm}
+	\textbf{Solution:} Add first $M$ elements of the array and output its minimum. Then add next element to the queue while removing the first element and so on. \newpage
+	
+	\section{Monotonic Stack}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Nearest smaller element}
+		\KwIn{Integer array $A$ of size $n$}
+		\KwOut{Rightmost index $j$ such that $j<i$ and $a_i > a_j$}
+	\end{algorithm}
+	\vspace{3mm}
+	Make a stack that stores value-index pairs. Iterate over the array from left to right, for some index $i$, compute the rightmost index for $i$ as follows:
+	\begin{itemize}
+		\item Pop the top element of the stack as long as $\text{value}_{stk.top}$ $\geq a_i$ (this is because we want the first element that is smaller and that value won't be solution to any subsequent $a_k$, since $a_i$ is smaller and further to the right).
+		\item As soon as the value $< a_i$, set the answer for index $i$ to the corresponding index in the value-index pair.
+		\item Finally push $(a_i,i)$ to the stack  
+	\end{itemize}
+	Runtime - $O(N)$
+	\section{Sliding Window Minimum}
+	
 	
 \end{document}
