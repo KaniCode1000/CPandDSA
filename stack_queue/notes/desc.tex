@@ -81,6 +81,9 @@
 	\end{itemize}
 	Runtime - $O(N)$
 	\section{Sliding Window Minimum}
+	A constant size subarray that moves from left to right is caled a sliding window.  To calculate and maintain a minimum of the sliding window, we use an idea similar to nearest smaller element idea, except this time we use a queue. We maintain this queue in non decreasing order. If the element being added, $e$ is smaller than the back of the queue, we pop the back and continue to do so until the queue is empty or we reach an element smaller than $e$. As the window moves, we remove the elements from the front that are not part of the window anymore. The element at the front is the minimum of the window. \newline
+	
+	Runtime - $O(n)$ because each element is added at most once and removed at most once.
 	
 	
 \end{document}

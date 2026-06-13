@@ -2,7 +2,8 @@
 
 \usepackage{amsmath}
 \usepackage[boxed,vlined,boxruled]{algorithm2e}
-
+\usepackage{tikz}
+\usepackage{forest}
 
 \title{Range Queries}
 \author{Kanishk Goel}
@@ -57,5 +58,129 @@
 	Sparse Table is therefore, best used for idempotent functions (functions whose repeated application doesn't change the result beyond the first time).
 	
 	\section{Fenwick Tree}
+	Consider $f$ to be some group operation (binary associative function over a set with an identity element and inverse elements) and $A$ be an array of length $n$. Denoting infix notation of $f$ as $*$ i.e $f(x,y) = x*y$ for arbitrary integers $x,y$, the Fenwick Tree data structure:
+	\begin{itemize}
+		\item Calculates value of $f$ over interval $[l,r]$ in $O(log \, n)$ time.
+		\item Updates the value of an element of $A$ in $O(log \, n)$ time.
+		\item Requires $O(n)$ memory
+	\end{itemize}
+	\vspace{1mm}
+	The Fenwick Tree is just an array $T[0, \ldots n-1]$, where each element is 
+	\[
+	T_i = \sum^i_{j=g(i)}	A_j
+	\]
+	for binary operation $f$ to be addition.
+	
+	\subsection{What is $g(i)$}
+	$g(i)$ replaces all the trailing $1$s in the binary representation of $i$, equivalent to $i \, \& \, (i+1)$. 
+	
+	\subsection{$f$ over $[0,i]$}
+	we have to start from $i$ and go to $0$, we know we have values stored for $[g(i),i]$ and $[g(g(i)-1),g(i)-1]$ and so on.
+	
+	\subsection{Update}
+	To update $A[i]$, we need to know all the $T[j]$s such that $g(j) \leq i \leq j$. Notice, all the $j$s  $< n$ which are made from setting unset bit of $i$ (and all subsequent $i'$), trivially have $j \geq i$ and $g(j) \leq i$. Therefore, we define $h(j) = j | (j+1)$ and use this continually until $j' > \geq n$ (because $0$ based indexing).
+	
+	\subsection{One based indexing}
+	\[
+	g(i) = i - (i \, \& \, -i) \land h(i) = i + (i \, \& \, -i)
+	\]
+	
+	$g(i)$ simply becomes toggling of the last set bit in the number.
+	
+	\subsection{Point Update and Range Query}
+	Normal Fenwick Tree as described above.
+	
+	\subsection{Range Update and Point Query}
+	We wish to increment range $[l,r]$ by $x$ and know the value of $A[i]$. We do this by storing the difference array $d$. $\forall i, \, i > 0, d[i] = A[i]-A[i-1]$ for $0$ based indexing and $d[0] = A[0]$.
+	
+	\subsubsection{Update}
+	Update simply becomes adding $x$ to $d[l]$ and substracting $x$ from $d[r+1]$ using the Fenwick point update method. To get $A[i]$, we simply obtain the prefix sum $P(i)$ on the Fenwick Tree using the Fenwick range query method.
+	
+	\subsection{Range Update and Range Query}
+	We maintain two fenwick trees now, $B_1$ and $B_2$. For a range $[l,r]$, we require 
+	\begin{align}
+		\sum_{k=m}^{i} a_k &= \sum_{k=1}^{i} a_k - \sum_{k=1}^{m-1} a_k \\
+		a_k &= \sum_{j=1}^{k} d_j
+		%\nonumber
+	\end{align}
+	\vspace{1mm}
+	Using $1$ and $2$ (remember $[l,r]$ is the range in which update was done, $P(i)$ is the prefix sum for ), we get
+	\begin{align*}
+		P(i) &= \sum_{k=1}^{i} a_k \\
+		P(i) &= \sum_{k=1}^{i} \sum_{j=1}^{k} d_k
+	\end{align*}
+	$d_j$ contributes in $d_j, d_{j+1}, \ldots d_i$ i.e equal to $i - j + 1$.
+	therefore, 
+	\[
+	P(i) = \sum_{j=1}^{i} d_j \cdot (i+1-j)
+	\]
+	Therefore, we split into Fenwick Trees, $B_1$ stores $d_j$ and $B_2$ stores $d_j \cdot j$
+	\[
+	P(i) = (i+1) \cdot query(B_1,i) -  query(B_2,i)
+	\]
+	
+	\section{Segment Tree}
+	Binary tree such that the nodes on the bottom level of the tree correspond to the array elements and other nodes contain information needed for processing range queries. \newline
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \i/\x in {0/5,1/8,2/6,3/3,4/2,5/7,6/2,7/6}{
+				\node at (\i+0.5,1) {\i};
+				\draw (\i,0) rectangle (\i+1,0.8);
+				\node at (\i+0.5,0.4) {\x};
+			}
+		\end{tikzpicture}
+	\end{center}
+
+	will have the segment tree: \newline
+	
+	\begin{center}
+		\begin{forest}
+			for tree={
+				draw,
+				circle,
+				minimum size=8mm,
+			}
+			[39
+			[22
+			[13
+			[{5}, rectangle]
+			[{8}, rectangle]
+			]
+			[9
+			[{6}, rectangle]
+			[{3}, rectangle]
+			]
+			]
+			[17
+			[9
+			[{2}, rectangle]
+			[{7}, rectangle]
+			]
+			[8
+			[{2}, rectangle]
+			[{6}, rectangle]
+			]
+			]
+			]
+		\end{forest}
+	\end{center}
+	\subsection{Range Query}
+	For sum operation any range $[a,b]$ can be calculated as $O(log \, n)$ number of internal nodes (or using root node). We start from root node and recursively branch out to their children. We will only have $4$ pointers parallelly in a tree's level, justifying the runtime (can be shown rigorously via induction). \newline
+	
+	\textbf{Reason:} Most ranges are fully contained in the range and only $2$ (one with $l$ contained in between and one with $r$ in between) are the only ranges that recurse (at each level).
+	\subsection{Update}
+	For any array node to be updated, just update it and go bottom up to the root following the path and updating the sum. For example, here for updating $7$, we take the route $7 \, - \, 9 \, - \, 17 \, - \, 39$. Hence, $O(log \, n)$ number of operations are required for updation.
+	
+	\subsection{Implementation}
+	When the length $n$ is not a power of $2$, then the whole array does not need to be filled. Space required = $2^{\lceil log_2 \, n \rceil + 1} \, < \, 4n$. \newline
+	
+	Segment tree requires $2$ points:
+	\begin{enumerate}
+		\item The value to store at each node of the segment tree (eg. a sum segment tree stores sum of elements in range $[l,r]$).
+		\item The merge operation that merges two siblings in a segment tree (eg. in a sum segment tree, nodes for $[l_1,r_1]$ and $[l_2,r_2]$ merge to node of range $[l_1,r_2]$).
+	\end{enumerate}
+	
+	For memory efficient storage, Euler Tours are used. The subtree from a node $x$ is equivalent to the contigous segment starting from $x$. Hence, its use to reduce memory to $2n$. The left child of $v$ is at $v+1$ and right child is after the left child's subtree.
 	
 \end{document}
