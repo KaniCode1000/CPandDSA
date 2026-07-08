@@ -1,0 +1,16 @@
+// DP QUESTIONS
+
+**1**
+for strings with F and T... treat F as +1/-1 and T as -1/+1, then you can use prefix sums to realise their disparity in an [l,r] segment
+
+
+// Circular Array
+
+**1**
+For circular array questions, you can also use a linear array idea, n times by cutting at every ith point and treating it like a new linear array.
+
+
+// RANGE QUERY QUESTIONS
+
+**1**
+If the question is on range updates and tracking which part is updated or remains unupdated - Use difference array/matrix/etc and find using prefix xor/sum etc. for each index.

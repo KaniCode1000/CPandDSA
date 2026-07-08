@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[boxed,vlined,boxruled]{algorithm2e}
+
+
+\title{DP Optimizations}
+\author{Kanishk Goel}
+\date{24 February, 2026}
+\parindent 0px
+
+\SetKwInput{KwAssume}{Simplifying assumption}
+\SetAlgoCaptionLayout{centerline}
+
+\begin{document}
+	\SetAlgoCaptionSeparator{}
+	\renewcommand{\thealgocf}{} 
+	\renewcommand{\AlCapNameFnt}{\bfseries}
+	\renewcommand{\AlCapFnt}{}
+	\DontPrintSemicolon
+	\renewcommand{\algorithmcfname}{}
+	\maketitle
+	\SetAlgoNoEnd
+	
+	\section{Divide and Conquer Optimization}
+	\subsection{Problem}
+	We are solving the following dp criteria:
+	\[
+	dp(i,j) = \underset{i \leq k \leq j}{\min} (dp(i-1,k-1) + C(k,j)),
+	\]
+	where $dp(i,j)$ denotes partitioning the first $j+1$ elements into $i+1$ subarrays and $C(l,r)$ is the cost of placing the subarray $a[l] \ldots a[r]$ into one contiguous segment.
+	
+	\subsection{opt(i,j)}
+	$opt(i,j)$ denotes the value of $k$ achieving this minimum. 
+	
+	\subsection{Sufficient condition for Divide and Conquer DP}
+	
+	$opt(i,j)$ needs to be monotonic, that is:
+	
+	\[
+	opt(i,j) \leq opt(i,j+1)
+	\]
+	
+	\subsection{Special Case}
+	One sufficiency condition for $opt$ to be monotonic, is for the cost function to satisfy Quadrangle inequality.
+	
+	\subsubsection{Quadrangle Inequality}
+	for $a \leq b \leq c \leq d$,
+	\[
+	C(a,c) + C(b,d) \leq C(a,d) + C(b,c)
+	\]
+	
+\end{document}
