@@ -31,7 +31,9 @@
 	
 	A variant of the same is to generalize the idea in higher dimensions. For example in $2D$, we can require the sum of a rectange from $(i,j)$ to $(i+l,j+b)$. \newline
 	
-	The solution to this, is to simply calculate a prefix sum subarray $f$, which calculates sum of the rectangle from $(0,0)$ to $(i,j)$. Now the answer would simply be $f(i,j) + f(i+l,j+b) - f(i,j+b) - f(i+l,j)$.
+	The solution to this, is to simply calculate a prefix sum subarray $f$, which calculates sum of the rectangle from $(0,0)$ to $(i,j)$. Now the answer would simply be $f(i,j) + f(i+l,j+b) - f(i,j+b) - f(i+l,j)$. \newline
+	
+	Can also be used for XOR function.
 	
 	\section{Min Queries - Sparse Table}
 	This is a $O(n \, log \, n)$ preprocessing method, after which we can answer most queries in $O(log \, n)$ time and any minimum/maximum query in $O(1)$ time. \newline
@@ -181,6 +183,6 @@
 		\item The merge operation that merges two siblings in a segment tree (eg. in a sum segment tree, nodes for $[l_1,r_1]$ and $[l_2,r_2]$ merge to node of range $[l_1,r_2]$).
 	\end{enumerate}
 	
-	For memory efficient storage, Euler Tours are used. The subtree from a node $x$ is equivalent to the contigous segment starting from $x$. Hence, its use to reduce memory to $2n$. The left child of $v$ is at $v+1$ and right child is after the left child's subtree.
+	For memory efficient storage, Euler Tours are used. The subtree from a node $x$ is equivalent to the contiguous segment starting from $x$. Hence, its use to reduce memory to $2n$. The left child of $v$ is at $v+1$ and right child is after the left child's subtree.
 	
 \end{document}

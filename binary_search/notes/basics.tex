@@ -48,7 +48,7 @@
 	\end{algorithm}	
 	\vspace{5mm}
 	\section{Lower-Upper Bound}
-		\begin{algorithm}[H]
+	\begin{algorithm}[H]
 		\SetAlgoLined
 		\caption{Lower Bound}
 		left $\leftarrow 0$ \;
@@ -76,4 +76,43 @@
 	\end{algorithm}
 	\vspace{3mm}
 	For upperbound, the $\text{right} = \text{mid}-1$ condition in the if block will change to $\text{left} = \text{mid}+1$, rest remains the same.
+	
+	\section{Binary Search for Answer}
+	\textbf{Problem:} All numbers are either good or bad. if $x$ is good, so is $x+1$. Let $f$ be a function that determines if $x$ is good or not i.e 
+	\[
+	f(x)=
+	\begin{cases}
+		1, & x \text{ is a good number}, \\
+		0, & \text{otherwise}
+	\end{cases}
+	\]
+	finally, we use this $f$ to determine if $x$ is good or not during the binary search. The binary search runs until $\text{left} + 1 = \text{right}$. \newline
+	
+	\textbf{Runtime:} $O(T(f) \cdot log \, (r-l))$ where $T(f)$ is the time complexity of running $f$.
+	
+	\subsection{Continuous Search}
+	When $f: \, \Re \rightarrow \Re$ be a real-valued function that is continuous on the segment $[L,R]$. \newline
+	
+	\textbf{Problem:} We have $n$ ropes, with $a_i$ lengths respectively. We want to cut $k$ pieces in total from all the ropes. Determine maximum length of the piece we can cut. \newline
+	
+	\textbf{Idea:} \[\displaystyle f(x) = \sum_{i=1}^{n} \lfloor \frac{a_i}{x} \rfloor\]
+	determines if the value $x$ works, we determine some $\epsilon$ as the max precision we can reach. So, we need at least $\log \, (\frac{\text{maxans}}{\epsilon})$ number of iterations from $l$ to $r$ with $\epsilon$ step size. Therefore, we use a for loop for these many iterations. \newline
+	
+	\textbf{Runtime:} $\displaystyle O(n \cdot log \, \frac{1}{\epsilon})$ \newline
+	
+	\textbf{Note:} We cannot use while loop, because double only stores values till a certain point, and if the answer is adjacent to $l$ and $r$, we could get stuck in a infinite loop, as halving $l$ and $r$ will never yield the answer we are looking for (occurs when the precision required is high enough).
+	
+	\section{Minimax Problems}
+	Problems of the format: $\min(\max(\ldots))$
+	\subsection{Problem 1}
+	Consider a number line on which people live. For each person $i$, we know the coordinate $x_i$ and their walking speed $v_i$. They are all to walk towards a point $x$. We have to choose $x$ such that, the time required for all of them to assemble at $x$ is the least. \newline
+	
+	\textbf{Solution:} Time required for a person to reach $x$ is equal to: 
+	\[
+	T_i(x) = \frac{\lvert x_i - x \rvert}{v_i}
+	\]
+	thereby total time, $\text{T}_{\text{total}} = \max_i \, \text{T}_i(x)$. \newline
+	
+	We binary search over possible times $t$, to find $\text{T}_{\text{total}} \leq t$. This reduces the problem to finding if $\forall \, i, \, \bigcap_{i=1}^n [x_i - v_i \cdot t, x_i + v_i \cdot t]$ is a non-empty segment.
+	
 \end{document}
