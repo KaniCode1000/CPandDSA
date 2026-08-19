@@ -4,7 +4,7 @@
 \usepackage[boxed,vlined,boxruled]{algorithm2e}
 
 
-\title{Dyanamic Programming}
+\title{Dynamic Programming}
 \author{Kanishk Goel}
 \date{24 February, 2026}
 \parindent 0px
@@ -150,4 +150,85 @@
 	
 	\subsubsection{Restoring subsequence}
 	We maintain two auxiliary arrays, one that tells us the index of elements in $d[]$, and an array of ancestors $p[]$ such that $p[i]$ will be the index of the previous element for the optimal subsequence ending at element $i$.
+	
+	\section{Coin Change (Ways)}
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Problem: Coin Change (Ways)}
+		\KwIn{Denominations of coins in array $A$ and the target amount $N$}
+		\KwOut{Number of ways to achieve the target amount using denomination of coins such that the order does not matter.}
+	\end{algorithm}
+	\vspace{5mm}
+	
+	\subsection{Solution in $O(N \cdot K)$}
+	
+	Idea is simple, consider a $dp[i][j]$ such that it stores the number of ways
+	to achieve value $i$ using the last coin as $A[x]$ where $x < j \land A[x] < A[j]$. Since, the order does not matter, we are counting only the lexicographical order. Now, from coin $j$, we can either use the coin $j$ again, or move onto obtaining the value $i$ using coin $j+1$.
+	
+	\subsection{Transition}
+	\[
+		dp[i,j] = dp[i, j-1] + dp[i-A[j], \,j] 
+	\]
+	
+	\section{Subset Sum with Add and Erase}
+		\begin{algorithm}[H]
+		\SetAlgoLined
+		\caption{Problem: Subset Sum}
+		\KwIn{An array $A$ and value $K$}
+		\KwOut{Number of subsets of $A$ with sum $K$}
+	\end{algorithm}
+	\vspace{5mm}
+	
+	\textbf{Subset:} Set of indices (not values).
+	
+	\subsection{Solution in $O(N \cdot K)$}
+	
+	$dp[i] = $ Number of subsets whose sum is $i$. Base Case: $dp[0] = 1$ (the empty subset).
+	
+	\subsection{Transition}
+	
+	\[
+	dp[i] = dp[i] + dp[i-x] \quad \forall x \leq i
+	\]
+	
+	\subsection{Add and Erase}
+	Start with an empty array, and follow $Q$ queries of form either $+x$ or $-x$.
+	\subsubsection{Addition}
+	For a query $+x$, transitions becomes:
+	\[
+	\forall K, K-1 \ldots x, \, \text{in this order do:} \quad dp[i] = dp[i] + dp[i-x] 
+	\]
+	
+	\subsubsection{Erasing}
+	For a query $-x$, transitions becomes:
+	\[
+	\forall x, x+1 \ldots K, \, \text{in this order do:} \quad dp[i] = dp[i] - dp[i-x] 
+	\]
+	
+	\section{Levenshtein Distance}
+		\begin{algorithm}[H]
+			\SetAlgoLined
+			\caption{Problem: Levenshtein Distance}
+			\KwIn{Two strings $x$ and $y$}
+			\KwOut{Minimum number of edits required to convert $x$ into $y$, operations allowed are insert (in $x$), remove (from $x$) and modify (a character of $x$) which cost of each operation being $1$.}
+		\end{algorithm}
+		\vspace{5mm}
+	
+	Idea is simple, suppose $dp[a,b]$ denotes the minimum number of edits required to match $x[0, \ldots a]$ and $y[0, \ldots b]$
+	
+	\[
+		dp[a,b] = \min \left(dp[a-1,b] + 1, dp[a,b-1] + 1, dp[a-1,b-1] + cost(a,b)\right)	
+	\]
+	
+	where $cost(a,b)$ is defined as:
+	
+	\[
+	cost(a,b) = \begin{cases}
+		x[a] = y[b] & 0, \\
+		x[a] \neq y[b] & 1
+	\end{cases}
+	\]
+	
+	Here, matching of string till $a$ and $b$ means either inserting at position $a \, (dp[a,b-1])$, removing at position $a \, (dp[a-1,b])$ or modifying (might not need to if $x[a] = y[b]$) at position $a \, (dp[a-1,b-1])$.
+	
 \end{document}
